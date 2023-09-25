@@ -174,117 +174,78 @@ class Manipulator {
     return newDateTime;
   }
 
-  DateTime endOf(DateTime dateTime, Unit unit, StartOfWeek startOfWeek) {
+DateTime endOf(DateTime dateTime, Unit unit, StartOfWeek startOfWeek) {
     DateTime newDateTime;
     switch (unit) {
       case Unit.microsecond:
-        newDateTime = dateTime.copyWith(
-            year: _getter.year(dateTime),
-            month: _getter.month(dateTime),
-            day: _getter.date(dateTime),
-            hour: _getter.hour(dateTime),
-            minute: _getter.minute(dateTime),
-            second: _getter.second(dateTime),
-            millisecond: _getter.millisecond(dateTime),
-            microsecond: _getter.microsecond(dateTime));
+        newDateTime = dateTime.copyWith();
         break;
       case Unit.millisecond:
         newDateTime = dateTime.copyWith(
-            year: _getter.year(dateTime),
-            month: _getter.month(dateTime),
-            day: _getter.date(dateTime),
-            hour: _getter.hour(dateTime),
-            minute: _getter.minute(dateTime),
-            second: _getter.second(dateTime),
-            millisecond: _getter.millisecond(dateTime),
-            microsecond: 999);
+            microsecond: 999
+        );
         break;
       case Unit.second:
         newDateTime = dateTime.copyWith(
-            year: _getter.year(dateTime),
-            month: _getter.month(dateTime),
-            day: _getter.date(dateTime),
-            hour: _getter.hour(dateTime),
-            minute: _getter.minute(dateTime),
-            second: _getter.second(dateTime),
             millisecond: 999,
             microsecond: 999);
+
         break;
       case Unit.minute:
         newDateTime = dateTime.copyWith(
-            year: _getter.year(dateTime),
-            month: _getter.month(dateTime),
-            day: _getter.date(dateTime),
-            hour: _getter.hour(dateTime),
-            minute: _getter.minute(dateTime),
             second: 59,
             millisecond: 999,
-            microsecond: 999);
+            microsecond: 999
+        );
         break;
       case Unit.hour:
         newDateTime = dateTime.copyWith(
-            year: _getter.year(dateTime),
-            month: _getter.month(dateTime),
-            day: _getter.date(dateTime),
-            hour: _getter.hour(dateTime),
             minute: 59,
             second: 59,
             millisecond: 999,
-            microsecond: 999);
+            microsecond: 999
+        );
         break;
       case Unit.day:
         newDateTime = dateTime.copyWith(
-            year: _getter.year(dateTime),
-            month: _getter.month(dateTime),
-            day: _getter.date(dateTime),
             hour: 23,
             minute: 59,
             second: 59,
             millisecond: 999,
-            microsecond: 999);
+            microsecond: 999
+        );
         break;
       case Unit.week:
-        var newDate = addDuration(
-            dateTime,
-            Duration(
-                days: DateTime.daysPerWeek -
-                    _getter.dayOfWeek(dateTime, startOfWeek)));
         newDateTime = dateTime.copyWith(
-            year: _getter.year(newDate),
-            month: _getter.month(newDate),
-            day: _getter.date(newDate),
+            day: (7-dateTime.weekday),
             hour: 23,
             minute: 59,
             second: 59,
             millisecond: 999,
-            microsecond: 999);
+            microsecond: 999
+        );
         break;
       case Unit.month:
-        var endMonthDate = Getter.daysInMonthArray[_getter.month(dateTime)];
-        if (Query.isLeapYear(_getter.year(dateTime)) &&
-            _getter.month(dateTime) == 2) {
-          endMonthDate++;
-        }
         newDateTime = dateTime.copyWith(
-            year: _getter.year(dateTime),
-            month: _getter.month(dateTime),
-            day: endMonthDate,
+            month: dateTime.month +1,
+            day: -1,
             hour: 23,
             minute: 59,
             second: 59,
             millisecond: 999,
-            microsecond: 999);
+            microsecond: 999
+        );
         break;
       case Unit.year:
         newDateTime = dateTime.copyWith(
-            year: _getter.year(dateTime),
-            month: 12,
+            year: dateTime.year +1,
+            month: -1,
             day: 31,
-            hour: 23,
-            minute: 59,
-            second: 59,
-            millisecond: 999,
-            microsecond: 999);
+            hour: 0,
+            minute: 0,
+            second: 0,
+            millisecond: 0,
+            microsecond: 0);
         break;
     }
     return newDateTime;
