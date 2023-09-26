@@ -6,6 +6,7 @@ import 'locale/locale.dart';
 import 'manipulator.dart';
 import 'query.dart';
 import 'utils/jiffy_exception.dart';
+import 'jiffy.dart';
 
 class Display {
   final Getter _getter;
@@ -127,11 +128,32 @@ class Display {
       case Unit.week:
         diff = (diffMicrosecondsSinceEpoch / Duration.microsecondsPerDay) / 7;
         break;
+      case Unit.kwWeek:
+        Jiffy first = Jiffy.parseFromDateTime(firstDateTime);
+        Jiffy second = Jiffy.parseFromDateTime(secondDateTime);
+        if (firstDateTime.year == secondDateTime.year) {
+          return (first.calendarWeek - second.calendarWeek).abs();
+        } else {
+          if (first.isAfter(second)) {
+            Jiffy temp = first;
+            first = second;
+            second = temp;
+          }
+          int remainingFirstYear = (first.endOf(Unit.year).calendarWeek - first.calendarWeek).abs() - 1;
+          int betweenYears = 0;
+          for (int year = first.year + 1; year < second.year - 1; year++) {
+            betweenYears = Jiffy.parseFromDateTime(DateTime(year))
+                .endOf(Unit.year)
+                .calendarWeek;
+          }
+          int leadingLastYear = (second.calendarWeek - second.startOf(Unit.year).calendarWeek).abs() - 1;
+          return remainingFirstYear + betweenYears + leadingLastYear;
+        }
       case Unit.month:
-        diff = _monthDiff(firstDateTime, secondDateTime);
+        diff = (firstDateTime.difference(secondDateTime).inDays / 30);
         break;
       case Unit.year:
-        diff = _monthDiff(firstDateTime, secondDateTime) / 12;
+        diff = firstDateTime.difference(secondDateTime).inDays / 30 / 12;
         break;
     }
 
@@ -174,7 +196,8 @@ class Display {
         .where((match) => match.group(1) == 'do')
         .toList();
   }
-
+  /* from original , not needed anymore
+  ToDo proof to delete
   num _monthDiff(DateTime firstDateTime, DateTime secondDateTime) {
     if (_getter.date(firstDateTime) < _getter.date(secondDateTime)) {
       return -(_monthDiff(secondDateTime, firstDateTime));
@@ -208,14 +231,38 @@ class Display {
 
     return -(monthDiff + offset);
   }
+ */
 
-  int _asFloor(num number) => number < 0 ? number.ceil() : number.floor();
+  /* from original, not needed anymore
+  ToDo proof to delete
 
   DateTime _addMonths(DateTime dateTime, int months) {
     return _manipulator.add(dateTime, 0, 0, 0, 0, 0, 0, 0, months, 0);
   }
 
+
   int _getMicrosecondsSinceEpoch(DateTime dateTime) {
     return _getter.microsecondsSinceEpoch(dateTime);
+  }
+
+   */
+
+  int _asFloor(num number) => number.round();
+
+  int _numOfWeeks(int year) {
+    Jiffy dec28 = Jiffy.parseFromDateTime(DateTime(year, 12, 28));
+    int dayOfDec28 = dec28.dayOfYear;
+    return ((dayOfDec28 - dec28.dayOfWeek + 10) / 7).floor();
+  }
+
+  int calendarWeek(DateTime dateTime) {
+    Jiffy date = Jiffy.parseFromDateTime(dateTime);
+    int woy = ((date.dayOfYear - date.dayOfWeek + 10) / 7).floor();
+    if (woy < 1) {
+      woy = _numOfWeeks(date.year - 1);
+    } else if (woy > _numOfWeeks(date.year)) {
+      woy = 1;
+    }
+    return woy;
   }
 }

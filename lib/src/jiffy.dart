@@ -895,6 +895,8 @@ class Jiffy {
   /// provided falls on a leap year.
   bool get isLeapYear => Query.isLeapYear(dateTime.year);
 
+  int get calendarWeek => _display.calendarWeek(dateTime);
+
   @override
   bool operator ==(Object other) {
     if (other is Jiffy) return dateTime == other.dateTime;

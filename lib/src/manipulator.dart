@@ -148,6 +148,10 @@ class Manipulator {
             millisecond: 0,
             microsecond: 0);
         break;
+      case Unit.kwWeek:
+        int weekday = dateTime.weekday;
+        newDateTime = dateTime.copyWith(day: dateTime.day - (weekday - 1));
+        break;
       case Unit.month:
         newDateTime = dateTime.copyWith(
             year: _getter.year(dateTime),
@@ -174,37 +178,26 @@ class Manipulator {
     return newDateTime;
   }
 
-DateTime endOf(DateTime dateTime, Unit unit, StartOfWeek startOfWeek) {
+  DateTime endOf(DateTime dateTime, Unit unit, StartOfWeek startOfWeek) {
     DateTime newDateTime;
     switch (unit) {
       case Unit.microsecond:
         newDateTime = dateTime.copyWith();
         break;
       case Unit.millisecond:
-        newDateTime = dateTime.copyWith(
-            microsecond: 999
-        );
+        newDateTime = dateTime.copyWith(microsecond: 999);
         break;
       case Unit.second:
-        newDateTime = dateTime.copyWith(
-            millisecond: 999,
-            microsecond: 999);
+        newDateTime = dateTime.copyWith(millisecond: 999, microsecond: 999);
 
         break;
       case Unit.minute:
-        newDateTime = dateTime.copyWith(
-            second: 59,
-            millisecond: 999,
-            microsecond: 999
-        );
+        newDateTime =
+            dateTime.copyWith(second: 59, millisecond: 999, microsecond: 999);
         break;
       case Unit.hour:
         newDateTime = dateTime.copyWith(
-            minute: 59,
-            second: 59,
-            millisecond: 999,
-            microsecond: 999
-        );
+            minute: 59, second: 59, millisecond: 999, microsecond: 999);
         break;
       case Unit.day:
         newDateTime = dateTime.copyWith(
@@ -212,33 +205,34 @@ DateTime endOf(DateTime dateTime, Unit unit, StartOfWeek startOfWeek) {
             minute: 59,
             second: 59,
             millisecond: 999,
-            microsecond: 999
-        );
+            microsecond: 999);
         break;
       case Unit.week:
         newDateTime = dateTime.copyWith(
-            day: (7-dateTime.weekday),
+            day: (7 - dateTime.weekday),
             hour: 23,
             minute: 59,
             second: 59,
             millisecond: 999,
-            microsecond: 999
-        );
+            microsecond: 999);
+        break;
+      case Unit.kwWeek:
+        int weekday = dateTime.weekday;
+        newDateTime = dateTime.copyWith(day: dateTime.day - (7 - weekday));
         break;
       case Unit.month:
         newDateTime = dateTime.copyWith(
-            month: dateTime.month +1,
+            month: dateTime.month + 1,
             day: -1,
             hour: 23,
             minute: 59,
             second: 59,
             millisecond: 999,
-            microsecond: 999
-        );
+            microsecond: 999);
         break;
       case Unit.year:
         newDateTime = dateTime.copyWith(
-            year: dateTime.year +1,
+            year: dateTime.year + 1,
             month: -1,
             day: 31,
             hour: 0,
