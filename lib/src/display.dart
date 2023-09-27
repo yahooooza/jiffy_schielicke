@@ -139,19 +139,12 @@ class Display {
             first = second;
             second = temp;
           }
-          int remainingFirstYear =
-              (first.endOf(Unit.year).calendarWeek - first.calendarWeek).abs() -
-                  1;
+          int remainingFirstYear = _numOfWeeks(first.year) - first.calendarWeek;
           int betweenYears = 0;
           for (int year = first.year + 1; year < second.year; year++) {
-            betweenYears += Jiffy.parseFromDateTime(DateTime(year))
-                .endOf(Unit.year)
-                .calendarWeek;
+            betweenYears += _numOfWeeks(year);
           }
-          int leadingLastYear =
-              (second.calendarWeek - second.startOf(Unit.year).calendarWeek)
-                      .abs() -
-                  1;
+          int leadingLastYear = second.calendarWeek;
           return remainingFirstYear + betweenYears + leadingLastYear;
         }
       case Unit.month:
