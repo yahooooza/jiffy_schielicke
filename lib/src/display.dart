@@ -144,7 +144,7 @@ class Display {
                   1;
           int betweenYears = 0;
           for (int year = first.year + 1; year < second.year; year++) {
-            betweenYears = Jiffy.parseFromDateTime(DateTime(year))
+            betweenYears += Jiffy.parseFromDateTime(DateTime(year))
                 .endOf(Unit.year)
                 .calendarWeek;
           }
