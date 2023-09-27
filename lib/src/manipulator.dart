@@ -218,7 +218,7 @@ class Manipulator {
         break;
       case Unit.kwWeek:
         int weekday = dateTime.weekday;
-        newDateTime = dateTime.copyWith(day: dateTime.day - (7 - weekday));
+        newDateTime = dateTime.copyWith(day: dateTime.day + (7 - weekday));
         break;
       case Unit.month:
         DateTime temp = DateTime(dateTime.year, dateTime.month + 1);
