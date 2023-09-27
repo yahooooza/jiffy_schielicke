@@ -221,25 +221,19 @@ class Manipulator {
         newDateTime = dateTime.copyWith(day: dateTime.day - (7 - weekday));
         break;
       case Unit.month:
+        DateTime temp = DateTime(dateTime.year, dateTime.month + 1);
+        newDateTime = temp.subtract(Duration(microseconds: 1));
+        break;
+      case Unit.year:
         newDateTime = dateTime.copyWith(
-            month: dateTime.month + 1,
-            day: -1,
+            year: dateTime.year,
+            month: 12,
+            day: 31,
             hour: 23,
             minute: 59,
             second: 59,
             millisecond: 999,
             microsecond: 999);
-        break;
-      case Unit.year:
-        newDateTime = dateTime.copyWith(
-            year: dateTime.year + 1,
-            month: -1,
-            day: 31,
-            hour: 0,
-            minute: 0,
-            second: 0,
-            millisecond: 0,
-            microsecond: 0);
         break;
     }
     return newDateTime;
