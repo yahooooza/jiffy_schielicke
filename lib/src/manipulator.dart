@@ -185,27 +185,23 @@ class Manipulator {
         newDateTime = dateTime.copyWith();
         break;
       case Unit.millisecond:
-        newDateTime = dateTime.copyWith(microsecond: 999);
+        newDateTime = dateTime.copyWith(microsecond: 0);
         break;
       case Unit.second:
-        newDateTime = dateTime.copyWith(millisecond: 999, microsecond: 999);
+        newDateTime = dateTime.copyWith(millisecond: 999, microsecond: 0);
 
         break;
       case Unit.minute:
         newDateTime =
-            dateTime.copyWith(second: 59, millisecond: 999, microsecond: 999);
+            dateTime.copyWith(second: 59, millisecond: 999, microsecond: 0);
         break;
       case Unit.hour:
         newDateTime = dateTime.copyWith(
-            minute: 59, second: 59, millisecond: 999, microsecond: 999);
+            minute: 59, second: 59, millisecond: 999, microsecond: 0);
         break;
       case Unit.day:
         newDateTime = dateTime.copyWith(
-            hour: 23,
-            minute: 59,
-            second: 59,
-            millisecond: 999,
-            microsecond: 999);
+            hour: 23, minute: 59, second: 59, millisecond: 999, microsecond: 0);
         break;
       case Unit.week:
         newDateTime = dateTime.copyWith(
@@ -214,7 +210,7 @@ class Manipulator {
             minute: 59,
             second: 59,
             millisecond: 999,
-            microsecond: 999);
+            microsecond: 0);
         break;
       case Unit.kwWeek:
         int weekday = dateTime.weekday;
@@ -224,7 +220,7 @@ class Manipulator {
             minute: 59,
             second: 59,
             millisecond: 999,
-            microsecond: 999);
+            microsecond: 0);
         break;
       case Unit.month:
         DateTime temp = DateTime(dateTime.year, dateTime.month + 1);
@@ -239,7 +235,7 @@ class Manipulator {
             minute: 59,
             second: 59,
             millisecond: 999,
-            microsecond: 999);
+            microsecond: 0);
         break;
     }
     return newDateTime;
