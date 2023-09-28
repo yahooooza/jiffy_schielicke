@@ -137,7 +137,7 @@ class Display {
           second = temp;
         }
         if (firstDateTime.year == secondDateTime.year) {
-          return second.calendarWeek - first.calendarWeek;
+          return second.calendarWeek - first.calendarWeek + 1;
         }
 
         int remainingFirstYear = _numOfWeeks(first.year) - first.calendarWeek;
@@ -146,7 +146,7 @@ class Display {
           betweenYears += _numOfWeeks(year);
         }
         int leadingLastYear = second.calendarWeek;
-        return remainingFirstYear + betweenYears + leadingLastYear;
+        return remainingFirstYear + betweenYears + leadingLastYear + 1;
 
       case Unit.month:
         diff = (firstDateTime.difference(secondDateTime).inDays / 30);
