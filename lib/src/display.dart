@@ -146,7 +146,7 @@ class Display {
           betweenYears += _numOfWeeks(year);
         }
         int leadingLastYear = second.calendarWeek;
-        return remainingFirstYear + betweenYears + leadingLastYear + 1;
+        return remainingFirstYear + betweenYears + leadingLastYear;
 
       case Unit.month:
         diff = (firstDateTime.difference(secondDateTime).inDays / 30);
