@@ -11,61 +11,36 @@ class Query {
 
   bool isBefore(DateTime firstDateTime, DateTime secondDateTime, Unit unit,
       StartOfWeek startOfWeek) {
-    final secondDateTimeMicrosecondsSinceEpoch =
-        _getter.microsecondsSinceEpoch(secondDateTime);
-
     if (unit == Unit.microsecond) {
       return _getter.microsecondsSinceEpoch(firstDateTime) <
-          secondDateTimeMicrosecondsSinceEpoch;
+          _getter.microsecondsSinceEpoch(secondDateTime);
     }
-
-    final endOfFirstDateTimeMicrosecondsSinceEpoch =
-        _getter.microsecondsSinceEpoch(
-            _manipulator.endOf(firstDateTime, unit, startOfWeek));
-
-    return endOfFirstDateTimeMicrosecondsSinceEpoch <
-        secondDateTimeMicrosecondsSinceEpoch;
+    return _manipulator
+        .startOf(firstDateTime, unit, startOfWeek)
+        .isBefore(_manipulator.startOf(secondDateTime, unit, startOfWeek));
   }
 
   bool isAfter(DateTime firstDateTime, DateTime secondDateTime, Unit unit,
       StartOfWeek startOfWeek) {
-    final secondDateTimeMicrosecondsSinceEpoch =
-        _getter.microsecondsSinceEpoch(secondDateTime);
-
     if (unit == Unit.microsecond) {
       return _getter.microsecondsSinceEpoch(firstDateTime) >
-          secondDateTimeMicrosecondsSinceEpoch;
+          _getter.microsecondsSinceEpoch(secondDateTime);
     }
-
-    final startOfFirstDateTimeMicrosecondsSinceEpoch =
-        _getter.microsecondsSinceEpoch(
-            _manipulator.startOf(firstDateTime, unit, startOfWeek));
-
-    return secondDateTimeMicrosecondsSinceEpoch <
-        startOfFirstDateTimeMicrosecondsSinceEpoch;
+    return _manipulator
+        .startOf(firstDateTime, unit, startOfWeek)
+        .isAfter(_manipulator.startOf(secondDateTime, unit, startOfWeek));
   }
 
   bool isSame(DateTime firstDateTime, DateTime secondDateTime, Unit unit,
       StartOfWeek startOfWeek) {
-    final secondDateTimeMicrosecondsSinceEpoch =
-        _getter.microsecondsSinceEpoch(secondDateTime);
-
     if (unit == Unit.microsecond) {
       return _getter.microsecondsSinceEpoch(firstDateTime) ==
-          secondDateTimeMicrosecondsSinceEpoch;
+          _getter.microsecondsSinceEpoch(secondDateTime);
     }
-
-    final startOfFirstDateTimeMicrosecondsSinceEpoch =
-        _getter.microsecondsSinceEpoch(
+    return _manipulator
+        .startOf(secondDateTime, unit, startOfWeek)
+        .isAtSameMomentAs(
             _manipulator.startOf(firstDateTime, unit, startOfWeek));
-    final endOfFirstDateTimeMicrosecondsSinceEpoch =
-        _getter.microsecondsSinceEpoch(
-            _manipulator.endOf(firstDateTime, unit, startOfWeek));
-
-    return startOfFirstDateTimeMicrosecondsSinceEpoch <=
-            secondDateTimeMicrosecondsSinceEpoch &&
-        secondDateTimeMicrosecondsSinceEpoch <=
-            endOfFirstDateTimeMicrosecondsSinceEpoch;
   }
 
   bool isSameOrBefore(DateTime firstDateTime, DateTime secondDateTime,
