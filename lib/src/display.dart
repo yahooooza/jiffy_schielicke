@@ -131,22 +131,23 @@ class Display {
       case Unit.kwWeek:
         Jiffy first = Jiffy.parseFromDateTime(firstDateTime);
         Jiffy second = Jiffy.parseFromDateTime(secondDateTime);
-        if (firstDateTime.year == secondDateTime.year) {
-          return (first.calendarWeek - second.calendarWeek).abs();
-        } else {
-          if (first.isAfter(second)) {
-            Jiffy temp = first;
-            first = second;
-            second = temp;
-          }
-          int remainingFirstYear = _numOfWeeks(first.year) - first.calendarWeek;
-          int betweenYears = 0;
-          for (int year = first.year + 1; year < second.year; year++) {
-            betweenYears += _numOfWeeks(year);
-          }
-          int leadingLastYear = second.calendarWeek;
-          return remainingFirstYear + betweenYears + leadingLastYear;
+        if (first.isAfter(second)) {
+          Jiffy temp = first;
+          first = second;
+          second = temp;
         }
+        if (firstDateTime.year == secondDateTime.year) {
+          return second.calendarWeek - first.calendarWeek;
+        }
+
+        int remainingFirstYear = _numOfWeeks(first.year) - first.calendarWeek;
+        int betweenYears = 0;
+        for (int year = first.year + 1; year < second.year; year++) {
+          betweenYears += _numOfWeeks(year);
+        }
+        int leadingLastYear = second.calendarWeek;
+        return remainingFirstYear + betweenYears + leadingLastYear + 1;
+
       case Unit.month:
         diff = (firstDateTime.difference(secondDateTime).inDays / 30);
         break;
