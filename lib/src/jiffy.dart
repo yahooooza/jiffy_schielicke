@@ -905,4 +905,9 @@ class Jiffy {
 
   @override
   int get hashCode => dateTime.hashCode;
+
+  @override
+  String toString() {
+    return _display.formatToISO8601(dateTime);
+  }
 }
