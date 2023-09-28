@@ -150,7 +150,13 @@ class Manipulator {
         break;
       case Unit.kwWeek:
         int weekday = dateTime.weekday;
-        newDateTime = dateTime.copyWith(day: dateTime.day - (weekday - 1));
+        newDateTime = dateTime.copyWith(
+            day: dateTime.day - (weekday - 1),
+            hour: 0,
+            minute: 0,
+            second: 0,
+            millisecond: 0,
+            microsecond: 0);
         break;
       case Unit.month:
         newDateTime = dateTime.copyWith(
@@ -224,7 +230,7 @@ class Manipulator {
         break;
       case Unit.month:
         DateTime temp = DateTime(dateTime.year, dateTime.month + 1);
-        newDateTime = temp.subtract(Duration(microseconds: 1));
+        newDateTime = temp.subtract(Duration(milliseconds: 1));
         break;
       case Unit.year:
         newDateTime = dateTime.copyWith(
