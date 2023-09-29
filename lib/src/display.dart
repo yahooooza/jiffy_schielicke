@@ -140,12 +140,22 @@ class Display {
           return second.calendarWeek - first.calendarWeek + 1;
         }
 
-        int remainingFirstYear = _numOfWeeks(first.year) - first.calendarWeek;
+        int remainingFirstYear;
+        if (first.calendarWeek == 1 && first.month == 12) {
+          remainingFirstYear = 0;
+        } else {
+          remainingFirstYear = _numOfWeeks(first.year) - first.calendarWeek;
+        }
         int betweenYears = 0;
         for (int year = first.year + 1; year < second.year; year++) {
           betweenYears += _numOfWeeks(year);
         }
-        int leadingLastYear = second.calendarWeek;
+        int leadingLastYear;
+        if (second.calendarWeek == 1 && second.month == 12) {
+          leadingLastYear = 0;
+        } else {
+          leadingLastYear = second.calendarWeek;
+        }
         return remainingFirstYear + betweenYears + leadingLastYear + 1;
 
       case Unit.month:
