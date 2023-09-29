@@ -152,7 +152,7 @@ class Display {
         }
         int leadingLastYear;
         if (second.calendarWeek == 1 && second.month == 12) {
-          leadingLastYear = 0;
+          leadingLastYear = _numOfWeeks(second.year);
         } else {
           leadingLastYear = second.calendarWeek;
         }
