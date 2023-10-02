@@ -181,6 +181,9 @@ class Manipulator {
             microsecond: 0);
         break;
     }
+    if (dateTime.isUtc) {
+      return Query.asUtc(newDateTime);
+    }
     return newDateTime;
   }
 
@@ -243,6 +246,9 @@ class Manipulator {
             millisecond: 999,
             microsecond: 0);
         break;
+    }
+    if (dateTime.isUtc) {
+      return Query.asUtc(newDateTime);
     }
     return newDateTime;
   }
