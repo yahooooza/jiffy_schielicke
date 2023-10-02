@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 import 'enums/start_of_week.dart';
 import 'enums/unit.dart';
 import 'getter.dart';
@@ -62,6 +64,12 @@ class Query {
   }
 
   static bool isUtc(DateTime dateTime) => dateTime.isUtc;
+
+  static DateTime asUtc(DateTime dateTime) {
+    //TODO should be improved
+    Duration offset = dateTime.timeZoneOffset;
+    return dateTime.toUtc().add(offset);
+  }
 
   static bool isLeapYear(int year) {
     return (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0));
