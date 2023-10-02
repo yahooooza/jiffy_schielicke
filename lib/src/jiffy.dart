@@ -891,6 +891,8 @@ class Jiffy {
   /// represents a UTC date and time.
   bool get isUtc => Query.isUtc(dateTime);
 
+  Jiffy get asUtc => _clone(Query.asUtc(dateTime));
+
   /// Returns a boolean value indicating whether the [Jiffy] instance
   /// provided falls on a leap year.
   bool get isLeapYear => Query.isLeapYear(dateTime.year);
