@@ -823,6 +823,11 @@ class Jiffy {
     return _display.diff(dateTime, jiffy.dateTime, unit, asFloat);
   }
 
+  num diffAbsolute(Jiffy jiffy,
+      {Unit unit = Unit.microsecond, bool asFloat = true}) {
+    return _display.diffAbsolute(dateTime, jiffy.dateTime, unit, asFloat);
+  }
+
   /// Returns a boolean value indicating whether this [Jiffy] instance is
   /// before the given [jiffy] instance.
   ///
