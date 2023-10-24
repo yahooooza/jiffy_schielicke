@@ -173,6 +173,46 @@ class Display {
     return asFloat ? _asFloor(diff) : diff;
   }
 
+  num diffAbsolute(DateTime firstDateTime, DateTime secondDateTime, Unit unit,
+      bool asFloat) {
+    final firstDateTimeMicrosecondsSinceEpoch =
+        _getter.microsecondsSinceEpoch(firstDateTime);
+    final secondDateTimeMicrosecondsSinceEpoch =
+        _getter.microsecondsSinceEpoch(secondDateTime);
+    final diffMicrosecondsSinceEpoch = firstDateTimeMicrosecondsSinceEpoch -
+        secondDateTimeMicrosecondsSinceEpoch;
+
+    switch (unit) {
+      case Unit.microsecond:
+        return diffMicrosecondsSinceEpoch;
+      case Unit.millisecond:
+        return (diffMicrosecondsSinceEpoch /
+                Duration.microsecondsPerMillisecond)
+            .ceil();
+      case Unit.second:
+        return (diffMicrosecondsSinceEpoch / Duration.microsecondsPerSecond)
+            .ceil();
+      case Unit.minute:
+        return (diffMicrosecondsSinceEpoch / Duration.microsecondsPerMinute)
+            .ceil();
+      case Unit.hour:
+        return (diffMicrosecondsSinceEpoch / Duration.microsecondsPerHour)
+            .ceil();
+      case Unit.day:
+        return (diffMicrosecondsSinceEpoch / Duration.microsecondsPerDay)
+            .ceil();
+      case Unit.week:
+        return ((diffMicrosecondsSinceEpoch / Duration.microsecondsPerDay) / 7)
+            .ceil();
+      case Unit.kwWeek:
+        return diff(firstDateTime, secondDateTime, Unit.kwWeek, false);
+      case Unit.month:
+        return firstDateTime.month - secondDateTime.month;
+      case Unit.year:
+        return firstDateTime.year - secondDateTime.year;
+    }
+  }
+
   String _getLocaleOrdinal(Locale locale, int date) {
     final ordinals = locale.ordinals();
     var suffix = ordinals.last;
