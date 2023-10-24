@@ -207,9 +207,9 @@ class Display {
       case Unit.kwWeek:
         return diff(firstDateTime, secondDateTime, Unit.kwWeek, false);
       case Unit.month:
-        return firstDateTime.month - secondDateTime.month;
+        return firstDateTime.month - secondDateTime.month + 1;
       case Unit.year:
-        return firstDateTime.year - secondDateTime.year;
+        return firstDateTime.year - secondDateTime.year + 1;
     }
   }
 
