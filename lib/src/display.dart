@@ -140,7 +140,9 @@ class Display {
           if (first.calendarWeek < second.calendarWeek) {
             return second.calendarWeek - first.calendarWeek + 1;
           } else {
-            return second.calendarWeek;
+            return _numOfWeeks(second.year) -
+                first.calendarWeek +
+                second.calendarWeek;
           }
         }
 
