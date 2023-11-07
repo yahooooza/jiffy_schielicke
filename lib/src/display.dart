@@ -137,7 +137,7 @@ class Display {
           second = temp;
         }
         if (firstDateTime.year == secondDateTime.year) {
-          if (first.calendarWeek < second.calendarWeek) {
+          if (first.calendarWeek <= second.calendarWeek) {
             return second.calendarWeek - first.calendarWeek + 1;
           } else {
             return _numOfWeeks(second.year) -
