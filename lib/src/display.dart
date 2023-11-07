@@ -209,7 +209,8 @@ class Display {
       case Unit.kwWeek:
         return diff(firstDateTime, secondDateTime, Unit.kwWeek, false);
       case Unit.month:
-        return firstDateTime.month - secondDateTime.month + 1;
+        int yearAddition = 12 * (firstDateTime.year - secondDateTime.year);
+        return firstDateTime.month - secondDateTime.month + 1 + yearAddition;
       case Unit.year:
         return firstDateTime.year - secondDateTime.year + 1;
     }
