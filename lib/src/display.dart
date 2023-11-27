@@ -165,10 +165,10 @@ class Display {
         return remainingFirstYear + betweenYears + leadingLastYear + 1;
 
       case Unit.month:
-        diff = (firstDateTime.difference(secondDateTime).inDays / 30);
+        diff = (firstDateTime.difference(secondDateTime).inDays / 30.4);
         break;
       case Unit.year:
-        diff = firstDateTime.difference(secondDateTime).inDays / 30 / 12;
+        diff = firstDateTime.difference(secondDateTime).inDays / 30.4 / 12;
         break;
     }
 
