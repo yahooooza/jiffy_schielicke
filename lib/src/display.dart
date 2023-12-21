@@ -24,15 +24,12 @@ class Display {
     }
     final escapedPattern = _replaceEscapePattern(pattern);
     final localeOrdinal = _getLocaleOrdinal(locale, _getter.date(dateTime));
-    final newPattern =
-        _replaceLocaleOrdinalDatePattern(escapedPattern, localeOrdinal);
+    final newPattern = _replaceLocaleOrdinalDatePattern(escapedPattern, localeOrdinal);
     return DateFormat(newPattern).format(dateTime);
   }
 
-  String fromAsRelativeDateTime(DateTime firstDateTime, DateTime secondDateTime,
-      Locale locale, bool withPrefixAndSuffix) {
-    final isFirstDateTimeSameOrAfterSecondDateTime = _query.isSameOrAfter(
-        firstDateTime, secondDateTime, Unit.microsecond, locale.startOfWeek());
+  String fromAsRelativeDateTime(DateTime firstDateTime, DateTime secondDateTime, Locale locale, bool withPrefixAndSuffix) {
+    final isFirstDateTimeSameOrAfterSecondDateTime = _query.isSameOrAfter(firstDateTime, secondDateTime, Unit.microsecond, locale.startOfWeek());
 
     final relativeDateTime = locale.relativeDateTime();
     String prefix, suffix;
@@ -45,10 +42,8 @@ class Display {
       suffix = relativeDateTime.suffixAgo();
     }
 
-    final seconds =
-        diff(firstDateTime, secondDateTime, Unit.second, false).abs();
-    final minutes =
-        diff(firstDateTime, secondDateTime, Unit.minute, false).abs();
+    final seconds = diff(firstDateTime, secondDateTime, Unit.second, false).abs();
+    final minutes = diff(firstDateTime, secondDateTime, Unit.minute, false).abs();
     final hours = diff(firstDateTime, secondDateTime, Unit.hour, false).abs();
     final days = diff(firstDateTime, secondDateTime, Unit.day, false).abs();
     final months = diff(firstDateTime, secondDateTime, Unit.month, false).abs();
@@ -81,28 +76,20 @@ class Display {
     }
 
     if (withPrefixAndSuffix) {
-      return [prefix, result, suffix]
-          .where((str) => str.isNotEmpty)
-          .join(relativeDateTime.wordSeparator());
+      return [prefix, result, suffix].where((str) => str.isNotEmpty).join(relativeDateTime.wordSeparator());
     }
 
     return result;
   }
 
-  String toAsRelativeDateTime(DateTime firstDateTime, DateTime secondDateTime,
-      Locale locale, bool withPrefixAndSuffix) {
-    return fromAsRelativeDateTime(
-        secondDateTime, firstDateTime, locale, withPrefixAndSuffix);
+  String toAsRelativeDateTime(DateTime firstDateTime, DateTime secondDateTime, Locale locale, bool withPrefixAndSuffix) {
+    return fromAsRelativeDateTime(secondDateTime, firstDateTime, locale, withPrefixAndSuffix);
   }
 
-  num diff(DateTime firstDateTime, DateTime secondDateTime, Unit unit,
-      bool asFloat) {
-    final firstDateTimeMicrosecondsSinceEpoch =
-        _getter.microsecondsSinceEpoch(firstDateTime);
-    final secondDateTimeMicrosecondsSinceEpoch =
-        _getter.microsecondsSinceEpoch(secondDateTime);
-    final diffMicrosecondsSinceEpoch = firstDateTimeMicrosecondsSinceEpoch -
-        secondDateTimeMicrosecondsSinceEpoch;
+  num diff(DateTime firstDateTime, DateTime secondDateTime, Unit unit, bool asFloat) {
+    final firstDateTimeMicrosecondsSinceEpoch = _getter.microsecondsSinceEpoch(firstDateTime);
+    final secondDateTimeMicrosecondsSinceEpoch = _getter.microsecondsSinceEpoch(secondDateTime);
+    final diffMicrosecondsSinceEpoch = firstDateTimeMicrosecondsSinceEpoch - secondDateTimeMicrosecondsSinceEpoch;
 
     num diff;
 
@@ -140,15 +127,15 @@ class Display {
           if (first.calendarWeek <= second.calendarWeek) {
             return second.calendarWeek - first.calendarWeek + 1;
           } else {
-            return _numOfWeeks(second.year) -
-                first.calendarWeek +
-                second.calendarWeek;
+            return _numOfWeeks(second.year) - first.calendarWeek + second.calendarWeek;
           }
         }
 
         int remainingFirstYear;
         if (first.calendarWeek == 1 && first.month == 12) {
           remainingFirstYear = 0;
+        } else if (first.calendarWeek > 50 && first.month == 1) {
+          remainingFirstYear = _numOfWeeks(first.year);
         } else {
           remainingFirstYear = _numOfWeeks(first.year) - first.calendarWeek;
         }
@@ -175,37 +162,26 @@ class Display {
     return asFloat ? _asFloor(diff) : diff;
   }
 
-  num diffAbsolute(DateTime firstDateTime, DateTime secondDateTime, Unit unit,
-      bool asFloat) {
-    final firstDateTimeMicrosecondsSinceEpoch =
-        _getter.microsecondsSinceEpoch(firstDateTime);
-    final secondDateTimeMicrosecondsSinceEpoch =
-        _getter.microsecondsSinceEpoch(secondDateTime);
-    final diffMicrosecondsSinceEpoch = firstDateTimeMicrosecondsSinceEpoch -
-        secondDateTimeMicrosecondsSinceEpoch;
+  num diffAbsolute(DateTime firstDateTime, DateTime secondDateTime, Unit unit, bool asFloat) {
+    final firstDateTimeMicrosecondsSinceEpoch = _getter.microsecondsSinceEpoch(firstDateTime);
+    final secondDateTimeMicrosecondsSinceEpoch = _getter.microsecondsSinceEpoch(secondDateTime);
+    final diffMicrosecondsSinceEpoch = firstDateTimeMicrosecondsSinceEpoch - secondDateTimeMicrosecondsSinceEpoch;
 
     switch (unit) {
       case Unit.microsecond:
         return diffMicrosecondsSinceEpoch;
       case Unit.millisecond:
-        return (diffMicrosecondsSinceEpoch /
-                Duration.microsecondsPerMillisecond)
-            .ceil();
+        return (diffMicrosecondsSinceEpoch / Duration.microsecondsPerMillisecond).ceil();
       case Unit.second:
-        return (diffMicrosecondsSinceEpoch / Duration.microsecondsPerSecond)
-            .ceil();
+        return (diffMicrosecondsSinceEpoch / Duration.microsecondsPerSecond).ceil();
       case Unit.minute:
-        return (diffMicrosecondsSinceEpoch / Duration.microsecondsPerMinute)
-            .ceil();
+        return (diffMicrosecondsSinceEpoch / Duration.microsecondsPerMinute).ceil();
       case Unit.hour:
-        return (diffMicrosecondsSinceEpoch / Duration.microsecondsPerHour)
-            .ceil();
+        return (diffMicrosecondsSinceEpoch / Duration.microsecondsPerHour).ceil();
       case Unit.day:
-        return (diffMicrosecondsSinceEpoch / Duration.microsecondsPerDay)
-            .ceil();
+        return (diffMicrosecondsSinceEpoch / Duration.microsecondsPerDay).ceil();
       case Unit.week:
-        return ((diffMicrosecondsSinceEpoch / Duration.microsecondsPerDay) / 7)
-            .ceil();
+        return ((diffMicrosecondsSinceEpoch / Duration.microsecondsPerDay) / 7).ceil();
       case Unit.kwWeek:
         return diff(firstDateTime, secondDateTime, Unit.kwWeek, false);
       case Unit.month:
@@ -227,10 +203,7 @@ class Display {
   }
 
   String _replaceEscapePattern(String input) {
-    return input
-        .replaceAll('\'', '\'\'')
-        .replaceAll('[', '\'')
-        .replaceAll(']', '\'');
+    return input.replaceAll('\'', '\'\'').replaceAll('[', '\'').replaceAll(']', '\'');
   }
 
   String _replaceLocaleOrdinalDatePattern(String input, String localeOrdinal) {
@@ -239,18 +212,14 @@ class Display {
 
     while (matches.isNotEmpty) {
       final match = matches.first;
-      pattern = pattern.replaceRange(match.start, match.end,
-          'd${localeOrdinal.isNotEmpty ? "'$localeOrdinal'" : ''}');
+      pattern = pattern.replaceRange(match.start, match.end, 'd${localeOrdinal.isNotEmpty ? "'$localeOrdinal'" : ''}');
       matches = _matchesOrdinalDatePattern(pattern);
     }
     return pattern;
   }
 
   List<Match> _matchesOrdinalDatePattern(String input) {
-    return RegExp(''''[^']*'|(do)''')
-        .allMatches(input)
-        .where((match) => match.group(1) == 'do')
-        .toList();
+    return RegExp(''''[^']*'|(do)''').allMatches(input).where((match) => match.group(1) == 'do').toList();
   }
   /* from original , not needed anymore
   ToDo proof to delete
