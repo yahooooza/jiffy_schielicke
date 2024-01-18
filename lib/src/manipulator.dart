@@ -15,7 +15,7 @@ class Manipulator {
   }
 
   DateTime add(
-      DateTime dateTime,
+    DateTime dateTime,
       int microseconds,
       int milliseconds,
       int seconds,
@@ -136,8 +136,7 @@ class Manipulator {
             microsecond: 0);
         break;
       case Unit.week:
-        var newDate = subtractDuration(dateTime,
-            Duration(days: _getter.dayOfWeek(dateTime, startOfWeek) - 1));
+        var newDate = subtractDuration(dateTime, Duration(days: _getter.dayOfWeek(dateTime, startOfWeek) - 1));
         newDateTime = dateTime.copyWith(
             year: _getter.year(newDate),
             month: _getter.month(newDate),
@@ -150,35 +149,22 @@ class Manipulator {
         break;
       case Unit.kwWeek:
         int weekday = dateTime.weekday;
-        newDateTime = dateTime.copyWith(
-            day: dateTime.day - (weekday - 1),
-            hour: 0,
-            minute: 0,
-            second: 0,
-            millisecond: 0,
-            microsecond: 0);
+        newDateTime = dateTime.copyWith(day: dateTime.day - (weekday - 1), hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
+        break;
+      case Unit.halfMonth:
+        if (dateTime.day < 15) {
+          newDateTime = DateTime(dateTime.year, dateTime.month, 1);
+        } else {
+          newDateTime =DateTime(dateTime.year, dateTime.month, 15);
+        }
         break;
       case Unit.month:
         newDateTime = dateTime.copyWith(
-            year: _getter.year(dateTime),
-            month: _getter.month(dateTime),
-            day: 1,
-            hour: 0,
-            minute: 0,
-            second: 0,
-            millisecond: 0,
-            microsecond: 0);
+            year: _getter.year(dateTime), month: _getter.month(dateTime), day: 1, hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
         break;
       case Unit.year:
-        newDateTime = dateTime.copyWith(
-            year: _getter.year(dateTime),
-            month: 1,
-            day: 1,
-            hour: 0,
-            minute: 0,
-            second: 0,
-            millisecond: 0,
-            microsecond: 0);
+        newDateTime =
+            dateTime.copyWith(year: _getter.year(dateTime), month: 1, day: 1, hour: 0, minute: 0, second: 0, millisecond: 0, microsecond: 0);
         break;
     }
     if (dateTime.isUtc) {
@@ -201,50 +187,34 @@ class Manipulator {
 
         break;
       case Unit.minute:
-        newDateTime =
-            dateTime.copyWith(second: 59, millisecond: 999, microsecond: 0);
+        newDateTime = dateTime.copyWith(second: 59, millisecond: 999, microsecond: 0);
         break;
       case Unit.hour:
-        newDateTime = dateTime.copyWith(
-            minute: 59, second: 59, millisecond: 999, microsecond: 0);
+        newDateTime = dateTime.copyWith(minute: 59, second: 59, millisecond: 999, microsecond: 0);
         break;
       case Unit.day:
-        newDateTime = dateTime.copyWith(
-            hour: 23, minute: 59, second: 59, millisecond: 999, microsecond: 0);
+        newDateTime = dateTime.copyWith(hour: 23, minute: 59, second: 59, millisecond: 999, microsecond: 0);
         break;
       case Unit.week:
-        newDateTime = dateTime.copyWith(
-            day: (7 - dateTime.weekday),
-            hour: 23,
-            minute: 59,
-            second: 59,
-            millisecond: 999,
-            microsecond: 0);
+        newDateTime = dateTime.copyWith(day: (7 - dateTime.weekday), hour: 23, minute: 59, second: 59, millisecond: 999, microsecond: 0);
         break;
       case Unit.kwWeek:
         int weekday = dateTime.weekday;
-        newDateTime = dateTime.copyWith(
-            day: dateTime.day + (7 - weekday),
-            hour: 23,
-            minute: 59,
-            second: 59,
-            millisecond: 999,
-            microsecond: 0);
+        newDateTime = dateTime.copyWith(day: dateTime.day + (7 - weekday), hour: 23, minute: 59, second: 59, millisecond: 999, microsecond: 0);
+        break;
+      case Unit.halfMonth:
+        if (dateTime.day < 16) {
+          newDateTime = DateTime(dateTime.year, dateTime.month, 15);
+        } else {
+          newDateTime =DateTime(dateTime.year, dateTime.month + 1, 1);
+        }
         break;
       case Unit.month:
         DateTime temp = DateTime(dateTime.year, dateTime.month + 1);
         newDateTime = temp.subtract(Duration(milliseconds: 1));
         break;
       case Unit.year:
-        newDateTime = dateTime.copyWith(
-            year: dateTime.year,
-            month: 12,
-            day: 31,
-            hour: 23,
-            minute: 59,
-            second: 59,
-            millisecond: 999,
-            microsecond: 0);
+        newDateTime = dateTime.copyWith(year: dateTime.year, month: 12, day: 31, hour: 23, minute: 59, second: 59, millisecond: 999, microsecond: 0);
         break;
     }
     if (dateTime.isUtc) {
@@ -265,8 +235,7 @@ class Manipulator {
       newYear++;
       newMonth -= 12;
     }
-    final newDay = min(_getter.date(dateTime),
-        _getter.daysInMonth(DateTime(newYear, newMonth)));
+    final newDay = min(_getter.date(dateTime), _getter.daysInMonth(DateTime(newYear, newMonth)));
     return dateTime.copyWith(
         year: newYear,
         month: newMonth,

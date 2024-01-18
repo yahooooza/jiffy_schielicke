@@ -150,7 +150,9 @@ class Display {
           leadingLastYear = second.calendarWeek;
         }
         return remainingFirstYear + betweenYears + leadingLastYear + 1;
-
+      case Unit.halfMonth:
+        diff = (firstDateTime.difference(secondDateTime).inDays / 15);
+        break;
       case Unit.month:
         diff = (firstDateTime.difference(secondDateTime).inDays / 30.4);
         break;
@@ -184,6 +186,8 @@ class Display {
         return ((diffMicrosecondsSinceEpoch / Duration.microsecondsPerDay) / 7).ceil();
       case Unit.kwWeek:
         return diff(firstDateTime, secondDateTime, Unit.kwWeek, false);
+      case Unit.halfMonth:
+        return diff(firstDateTime, secondDateTime, Unit.halfMonth, false);
       case Unit.month:
         int yearAddition = 12 * (firstDateTime.year - secondDateTime.year);
         return firstDateTime.month - secondDateTime.month + 1 + yearAddition;

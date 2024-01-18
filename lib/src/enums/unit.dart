@@ -7,6 +7,7 @@ enum Unit {
   day,
   week,
   kwWeek,
+  halfMonth,
   month,
   year
 }
