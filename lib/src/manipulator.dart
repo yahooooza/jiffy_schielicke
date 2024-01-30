@@ -155,7 +155,7 @@ class Manipulator {
         if (dateTime.day < 16) {
           newDateTime = DateTime(dateTime.year, dateTime.month, 1);
         } else {
-          newDateTime =DateTime(dateTime.year, dateTime.month, 15);
+          newDateTime =DateTime(dateTime.year, dateTime.month, 16);
         }
         break;
       case Unit.month:
@@ -204,7 +204,7 @@ class Manipulator {
         break;
       case Unit.halfMonth:
         if (dateTime.day < 16) {
-          newDateTime = DateTime(dateTime.year, dateTime.month, 15);
+          newDateTime = DateTime(dateTime.year, dateTime.month, 16);
         } else {
           DateTime temp =DateTime(dateTime.year, dateTime.month + 1, 1);
           newDateTime = temp.subtract(Duration(milliseconds: 1));
