@@ -126,8 +126,8 @@ class Display {
         if (firstDateTime.year == secondDateTime.year) {
           if (first.calendarWeek < second.calendarWeek) {
             return second.calendarWeek - first.calendarWeek + 1;
-          } else if (first.calendarWeek == second.calendarWeek && diffAbsolute(first.dateTime, second.dateTime, Unit.day, false) > 30) {
-            return _numOfWeeks(second.year) + 1;
+          } else if (first.calendarWeek == second.calendarWeek && diffAbsolute(first.dateTime, second.dateTime, Unit.day, false).abs() > 30) {
+            return _numOfWeeks(second.year) + 2;
           } else {
             return _numOfWeeks(second.year) - first.calendarWeek + second.calendarWeek;
           }
