@@ -129,7 +129,7 @@ class Display {
           } else if (first.calendarWeek == second.calendarWeek && diffAbsolute(first.dateTime, second.dateTime, Unit.day, false).abs() >= 30) {
             return _numOfWeeks(second.year) + 1;
           } else if (first.calendarWeek == second.calendarWeek && diffAbsolute(first.dateTime, second.dateTime, Unit.day, false).abs() < 30) {
-            return 1;
+            return 0;
           } else {
             return _numOfWeeks(second.year) - first.calendarWeek + second.calendarWeek;
           }
