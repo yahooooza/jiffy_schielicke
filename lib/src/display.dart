@@ -126,12 +126,16 @@ class Display {
         if (firstDateTime.year == secondDateTime.year) {
           if (first.calendarWeek < second.calendarWeek) {
             difference = second.calendarWeek - first.calendarWeek + 1;
+            break;
           } else if (first.calendarWeek == second.calendarWeek && diffAbsolute(first.dateTime, second.dateTime, Unit.day, false).abs() >= 30) {
             difference = _numOfWeeks(second.year) + 1;
+            break;
           } else if (first.calendarWeek == second.calendarWeek && diffAbsolute(first.dateTime, second.dateTime, Unit.day, false).abs() < 30) {
             difference = 0;
+            break;
           } else {
             difference = _numOfWeeks(second.year) - first.calendarWeek + second.calendarWeek;
+            break;
           }
         }
 
@@ -154,9 +158,10 @@ class Display {
           leadingLastYear = second.calendarWeek;
         }
         difference = remainingFirstYear + betweenYears + leadingLastYear + 1;
+        break;
       case Unit.halfMonth:
         //diff = (firstDateTime.difference(secondDateTime).inDays / 15.2);
-        difference = diff(first, second, Unit.month, false) * 2;
+        difference = diff(firstDateTime, secondDateTime, Unit.month, false) * 2;
         break;
       case Unit.month:
         difference = (firstDateTime.difference(secondDateTime).inDays / 30.4);
