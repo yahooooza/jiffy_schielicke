@@ -204,10 +204,9 @@ class Manipulator {
         break;
       case Unit.halfMonth:
         if (dateTime.day < 16) {
-          newDateTime = DateTime(dateTime.year, dateTime.month, 16);
+          newDateTime = DateTime(dateTime.year, dateTime.month, 15, hour: 23, minute: 59, second: 59, millisecond: 999, microsecond: 0);
         } else {
-          DateTime temp =DateTime(dateTime.year, dateTime.month + 1, 1);
-          newDateTime = temp.subtract(Duration(milliseconds: 1));
+          newDateTime = endOf(dateTime, Unit.month, startOfWeek);
         }
         break;
       case Unit.month:
