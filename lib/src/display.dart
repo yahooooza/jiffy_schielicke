@@ -91,29 +91,29 @@ class Display {
     final secondDateTimeMicrosecondsSinceEpoch = _getter.microsecondsSinceEpoch(secondDateTime);
     final diffMicrosecondsSinceEpoch = firstDateTimeMicrosecondsSinceEpoch - secondDateTimeMicrosecondsSinceEpoch;
 
-    num diff;
+    num difference;
 
     switch (unit) {
       case Unit.microsecond:
-        diff = diffMicrosecondsSinceEpoch;
+        difference = diffMicrosecondsSinceEpoch;
         break;
       case Unit.millisecond:
-        diff = diffMicrosecondsSinceEpoch / Duration.microsecondsPerMillisecond;
+        difference = diffMicrosecondsSinceEpoch / Duration.microsecondsPerMillisecond;
         break;
       case Unit.second:
-        diff = diffMicrosecondsSinceEpoch / Duration.microsecondsPerSecond;
+        difference = diffMicrosecondsSinceEpoch / Duration.microsecondsPerSecond;
         break;
       case Unit.minute:
-        diff = diffMicrosecondsSinceEpoch / Duration.microsecondsPerMinute;
+        difference = diffMicrosecondsSinceEpoch / Duration.microsecondsPerMinute;
         break;
       case Unit.hour:
-        diff = diffMicrosecondsSinceEpoch / Duration.microsecondsPerHour;
+        difference = diffMicrosecondsSinceEpoch / Duration.microsecondsPerHour;
         break;
       case Unit.day:
-        diff = diffMicrosecondsSinceEpoch / Duration.microsecondsPerDay;
+        difference = diffMicrosecondsSinceEpoch / Duration.microsecondsPerDay;
         break;
       case Unit.week:
-        diff = (diffMicrosecondsSinceEpoch / Duration.microsecondsPerDay) / 7;
+        difference = (diffMicrosecondsSinceEpoch / Duration.microsecondsPerDay) / 7;
         break;
       case Unit.kwWeek:
         Jiffy first = Jiffy.parseFromDateTime(firstDateTime);
@@ -125,13 +125,13 @@ class Display {
         }
         if (firstDateTime.year == secondDateTime.year) {
           if (first.calendarWeek < second.calendarWeek) {
-            return second.calendarWeek - first.calendarWeek + 1;
+            difference = second.calendarWeek - first.calendarWeek + 1;
           } else if (first.calendarWeek == second.calendarWeek && diffAbsolute(first.dateTime, second.dateTime, Unit.day, false).abs() >= 30) {
-            return _numOfWeeks(second.year) + 1;
+            difference = _numOfWeeks(second.year) + 1;
           } else if (first.calendarWeek == second.calendarWeek && diffAbsolute(first.dateTime, second.dateTime, Unit.day, false).abs() < 30) {
-            return 0;
+            difference = 0;
           } else {
-            return _numOfWeeks(second.year) - first.calendarWeek + second.calendarWeek;
+            difference = _numOfWeeks(second.year) - first.calendarWeek + second.calendarWeek;
           }
         }
 
@@ -153,20 +153,20 @@ class Display {
         } else {
           leadingLastYear = second.calendarWeek;
         }
-        return remainingFirstYear + betweenYears + leadingLastYear + 1;
+        difference = remainingFirstYear + betweenYears + leadingLastYear + 1;
       case Unit.halfMonth:
         //diff = (firstDateTime.difference(secondDateTime).inDays / 15.2);
-        diff= diff(first, second, Unit.month, false) * 2;
+        difference = diff(first, second, Unit.month, false) * 2;
         break;
       case Unit.month:
-        diff = (firstDateTime.difference(secondDateTime).inDays / 30.4);
+        difference = (firstDateTime.difference(secondDateTime).inDays / 30.4);
         break;
       case Unit.year:
-        diff = firstDateTime.difference(secondDateTime).inDays / 30.4 / 12;
+        difference = firstDateTime.difference(secondDateTime).inDays / 30.4 / 12;
         break;
     }
 
-    return asFloat ? _asFloor(diff) : diff;
+    return asFloat ? _asFloor(difference) : difference;
   }
 
   num diffAbsolute(DateTime firstDateTime, DateTime secondDateTime, Unit unit, bool asFloat) {
