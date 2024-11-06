@@ -134,7 +134,7 @@ class Display {
             difference = 0;
             break;
           } else {
-            difference = second.calendarWeek + 1;
+            difference = _numOfWeeks(first.year) - first.calendarWeek + second.calendarWeek + 1;
             break;
           }
         }
